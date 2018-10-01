@@ -33,8 +33,57 @@ class ABSCorpus(metaclass=ABCMeta):
         """
         """
         
-    
+    @property
+    @abstractmethod
+    def encoding(self):
+        """
+        """
+        
+    @encoding.setter
+    @abstractmethod
+    def encoding(self, a_encoding):
+        """
+        """
+        
+    @property
+    @abstractmethod
+    def corpus(self):
+        """
+        """
+        
+    @property
+    @abstractmethod
+    def doc_ids(self):
+        """
+        """
+        
+    @property
+    @abstractmethod
+    def doc_x_labels(self):
+        """
+        """
+        
+    @abstractmethod
+    def load(self, path):
+        """
+        """
+        
+        
+    @abstractmethod
+    def get_document(self, doc_id):
+        """
+        """
+        
+    @abstractmethod
+    def get_size(self):
+        """
+        """
+        
+    @abstractmethod
+    def clear(self):
+        """
+        """   
     
         
     
-        
+    
