@@ -51,7 +51,6 @@ class ABSCorpus(metaclass=ABCMeta):
         """
         """
         
-    @property
     @abstractmethod
     def doc_ids(self):
         """

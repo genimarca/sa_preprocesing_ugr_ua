@@ -1,15 +1,17 @@
-#!/usr/bin/python3
-# *-* coding: utf-8 *-*
-'''
-Created on 1 oct. 2018
+#!/usr/local/bin/python3
+# -*- coding: utf-8 -*-
+"""
+Created on 2 oct. 2018
 
-@author: Eugenio Martínez Cámara
-'''
-from ugr.model.dao import abs_corpus
+:author: Eugenio Martínez Cámara <emcamara@decsai.ugr.es>
+"""
+from ugr.model.dao.abs_corpus import ABSCorpus
 from ugr.model.dao.document import Document
 
-class CorpusRestTripadvisor(abs_corpus):
-    '''Implementation of the abstract class ugr.model.dao.abs_corpus
+
+class CorpusMuchoCine(ABSCorpus):
+    '''
+    classdocs
     '''
 
 
@@ -17,11 +19,12 @@ class CorpusRestTripadvisor(abs_corpus):
         '''
         Constructor
         '''
+        
+        self.__allow_labels=None
         self.__encoding = "utf-8"
-        self.__allow_labels = None
-        self.__corpus = {}
+        self.__corpus={}
         self.__doc_x_labels = None
-        self.__SEP_CHAR = "\t"
+        self.__SEP_CHAR = "\";\""
         
         
     @property
@@ -77,25 +80,24 @@ class CorpusRestTripadvisor(abs_corpus):
         """
         """
         doc = Document()
-        doc.id = int(line[1])
-        doc.raw_title = line[2][1:-1]
-        doc.raw_body = line[4][1:-1]
-        doc.raw_label = int(line[3])
+        doc.id = int(line[0])
+        doc.raw_title = line[2]
+        doc.raw_body = line[-1]
+        doc.raw_label = int(line[1])
         doc.allow_label = self.__allow_labels.get_label_index(doc.raw_label)
         self.__corpus[doc.id] = doc
-        
     
     def load(self, path):
         """
         """
-        
         with open(path, 'r', encoding=self.__encoding) as hand_file:
             hand_file.readline()
             own_split = str.split
             own_strip = str.strip
             for line in hand_file:
                 line = own_split(own_strip(line), self.__SEP_CHAR)
-                self.__add_document(line) 
+                self.__add_document(line)
+            
         
         
     def get_document(self, doc_id):
