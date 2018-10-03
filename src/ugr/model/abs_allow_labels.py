@@ -3,10 +3,12 @@
 '''
 Created on 27 sept. 2018
 
-@author: geniugr
+:author: Eugenio Martínez Cámara
 '''
 
-class ABSAllowLabels:
+from abc import ABCMeta, abstractmethod
+
+class ABSAllowLabels(metaclass=ABCMeta):
     '''
     classdocs
     '''
@@ -14,6 +16,33 @@ class ABSAllowLabels:
 
     def __init__(self, params):
         '''
-        Constructor
+        Sole constructor
         '''
+        pass
+    
+    @property
+    @abstractmethod
+    def number_of_labels(self):
+        """
+        """
+    
+    
+    @abstractmethod
+    def label_index(self):
+        """
+        """
+        
+    @abstractmethod
+    def get_label_index(self, raw_label):
+        """
+        """
+        
+    @abstractmethod
+    def get_label_name(self, label_index):
+        """
+        """
+        
+    
+    
+    
         
