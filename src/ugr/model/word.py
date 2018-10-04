@@ -100,3 +100,31 @@ class Word:
     @is_stopword.setter
     def is_stopword(self, a_is_stopword):
         self.__is_stopword = a_is_stopword
+        
+    @classmethod
+    def raw_form(cls, word):
+        return word.w_raw_form
+    
+    @classmethod
+    def raw_form_no_accent(cls, word):
+        return word.w_raw_form_no_accent
+    
+    @classmethod
+    def raw_form_lc(cls, word):
+        return word.w_raw_form_lc
+    
+    @classmethod
+    def raw_form_lc_no_accent(cls, word):
+        return word.w_raw_form_lc_no_accent
+    
+    @classmethod
+    def lemma(cls, word):
+        return word.w_lemma
+    
+    @classmethod
+    def lemma_no_accent(cls, word):
+        return word.w_lemma_no_accent
+    
+    @classmethod
+    def stem(cls, word):
+        return word.w_stem

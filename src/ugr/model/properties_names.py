@@ -23,7 +23,13 @@ class PropertiesNames(Enum):
     
     ALLOW_LABELS = "ALLOW_LABELS"
     
-    PREPROCESSING = "PREPROCESSING"
+    USE_RAW_WORDS = "USE_RAW_WORDS"
+    
+    USE_LEMMA_WORDS = "USE_LEMMA_WORDS"
+    
+    USE_STEMMER_WORDS = "USE_STEMMER_WORDS"
+    
+    REMOVE_ACCENTS = "REMOVE_ACCENTS"
     
     USE_STOPPER = "USE_STOPPER"
     
@@ -33,5 +39,13 @@ class PropertiesNames(Enum):
     
     TRANS_DIGITS = "TRANS_DIGITS"
     
+    MIN_GRAM = "MIN_GRAM"
     
+    MAX_GRAM = "MAX_GRAM"
+    
+    FEAUTRES_GENERATOR_NAME = "FEATURES_GENERATOR_NAME"
+    
+    FIELD_TO_PROCESS = "FIELD_TO_PROCESS" #title|body|title_body
+    
+    OUTPUT_MATLAB_PATH = "OUTPUT_MATLAB_PATH"
         

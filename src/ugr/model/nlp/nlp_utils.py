@@ -182,6 +182,8 @@ class NLPUtils:
                             meta_word.is_stopword = True
                     meta_sent.append(meta_word)
             meta_sentences.append(meta_sent)
+        
+        return meta_sentences
                     
     
     
