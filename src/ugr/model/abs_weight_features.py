@@ -20,6 +20,6 @@ class ABSWeightFeatures(metaclass=ABCMeta):
         """
         
     @abstractmethod
-    def write_matlab_format(self, path):
+    def write_matlab_format(self, path, corpus):
         """
         """

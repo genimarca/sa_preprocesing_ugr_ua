@@ -14,13 +14,14 @@ from ugr.model.properties_manager import PropertiesManager
 from ugr.model.properties_names import PropertiesNames
 
 
+
 class TFIDFFeatures(ABSWeightFeatures):
     '''
     classdocs
     '''
 
 
-    def __init__(self, params):
+    def __init__(self):
         '''
         Constructor
         '''
@@ -32,8 +33,8 @@ class TFIDFFeatures(ABSWeightFeatures):
     def weight_features(self, raw_documents):
         """
         """
-        min_gram = int(PropertiesManager.get_prop_value(PropertiesNames.MIN_GRAM))
-        max_gram = int(PropertiesManager.get_prop_value(PropertiesNames.MAX_GRAM))
+        min_gram = int(PropertiesManager.get_prop_value(PropertiesNames.MIN_GRAM.value))
+        max_gram = int(PropertiesManager.get_prop_value(PropertiesNames.MAX_GRAM.value))
         ngrams = (min_gram, max_gram)
         self.__vectorizer = TfidfVectorizer(
             analyzer="word",
@@ -47,9 +48,17 @@ class TFIDFFeatures(ABSWeightFeatures):
         
         
         
-    def write_matlab_format(self, path):
+    def write_matlab_format(self, path, corpus):
         """
         """
-        savemat(path, {"features":self.__features_weights})
+        labels = [corpus.get_document(id).allow_label for id in corpus.doc_ids()]
+        dict_meta_corpus = {
+            "n_docs":corpus.get_size(),
+            "doc_ids":corpus.doc_ids(),
+            "labels":labels,
+            "features_names":self.__vectorizer.get_feature_names(),
+            "features_weights":self.__features_weights
+            }
+        savemat(path, dict_meta_corpus)
         
         

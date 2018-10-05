@@ -14,7 +14,7 @@ class FeatureWeightsNames(Enum):
     '''
 
 
-    ABS_FREQ_WEIGHTS = "ugr.model.frequency_features"
+    FREQ_WEIGHTS = "ugr.model.frequency_features.FrequencyFeatures"
     
     TFIDF_WEIGHTS = "ugr.model.tfidf_features.TFIDFFeatures"
         

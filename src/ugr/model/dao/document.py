@@ -13,7 +13,7 @@ class Document:
     '''
 
 
-    def __init__(self, params):
+    def __init__(self):
         '''
         Constructor
         '''
@@ -54,9 +54,17 @@ class Document:
     def proc_title(self):
         return self.__proc_title
     
+    @proc_title.setter
+    def proc_title(self, a_proc_title):
+        self.__proc_title = a_proc_title
+    
     @property
     def proc_body(self):
         return self.__proc_body
+    
+    @proc_body.setter
+    def proc_body(self, a_proc_body):
+        self.__proc_body = a_proc_body
     
     @property
     def raw_label(self):

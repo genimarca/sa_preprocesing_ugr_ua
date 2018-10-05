@@ -33,8 +33,6 @@ class PropertiesNames(Enum):
     
     USE_STOPPER = "USE_STOPPER"
     
-    USE_STEMMER = "USE_STEMMER"
-    
     TO_LOWERCASE = "TO_LOWERCASE"
     
     TRANS_DIGITS = "TRANS_DIGITS"

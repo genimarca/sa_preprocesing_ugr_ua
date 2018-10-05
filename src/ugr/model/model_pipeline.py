@@ -33,15 +33,17 @@ class ModelPipeline:
         self.__field_to_process = None
         self.__get_word_info_method = None
         self.__output_matlab_path = None
+        self.__remove_stopwords = None
+        self.__transform_digits = None
         
         
     def __select_word_info_method(self):
         
-        use_raw_words = PropertiesManager.get_prop_value(PropertiesNames.USE_RAW_WORDS)
-        use_lemma_words = PropertiesManager.get_prop_value(PropertiesNames.USE_LEMMA_WORDS)
-        use_stem_words = PropertiesManager.get_prop_value(PropertiesNames.USE_STEMMER_WORDS)
-        remove_accents = PropertiesManager.get_prop_value(PropertiesNames.REMOVE_ACCENTS)
-        to_lower_case = PropertiesManager.get_prop_value(PropertiesNames.TO_LOWERCASE)
+        use_raw_words = PropertiesManager.get_prop_value(PropertiesNames.USE_RAW_WORDS.value)
+        use_lemma_words = PropertiesManager.get_prop_value(PropertiesNames.USE_LEMMA_WORDS.value)
+        use_stem_words = PropertiesManager.get_prop_value(PropertiesNames.USE_STEMMER_WORDS.value)
+        remove_accents = PropertiesManager.get_prop_value(PropertiesNames.REMOVE_ACCENTS.value)
+        to_lower_case = PropertiesManager.get_prop_value(PropertiesNames.TO_LOWERCASE.value)
         
         if use_raw_words is True and use_lemma_words is False and use_stem_words is False:
             if to_lower_case is False:
@@ -68,47 +70,51 @@ class ModelPipeline:
         
         PropertiesManager.load_properties(conf_path)
         
-        self.__encoding = PropertiesManager.get_prop_value(PropertiesNames.ENCODING)
-        self.__lang = PropertiesManager.get_prop_value(PropertiesNames.LANG)
+        self.__encoding = PropertiesManager.get_prop_value(PropertiesNames.ENCODING.value)
+        self.__lang = PropertiesManager.get_prop_value(PropertiesNames.LANG.value)
         
-        corpus_name = PropertiesManager.get_prop_value(PropertiesNames.CORPUS_NAME)
-        if corpus_name is None:
-            raise ValueError("You must define the corpus type.")
-        
-        self.__corpus_handler = FactoryCorpus.creator(corpus_name)
-        
-        allow_labels_name = PropertiesManager.get_prop_value(PropertiesNames.ALLOW_LABELS)
+        allow_labels_name = PropertiesManager.get_prop_value(PropertiesNames.ALLOW_LABELS.value)
         if allow_labels_name is None:
             raise ValueError("You must define the number of labels of the output data.")
         
         self.__allow_labels = FactoryAllowLabels.creator(allow_labels_name)
         
+        corpus_name = PropertiesManager.get_prop_value(PropertiesNames.CORPUS_NAME.value)
+        if corpus_name is None:
+            raise ValueError("You must define the corpus type.")
+        
+        self.__corpus_handler = FactoryCorpus.creator(corpus_name)
+        self.__corpus_handler.allow_labels = self.__allow_labels
+        
         self.__nlp_utils = NLPUtils()
         self.__nlp_utils.lang = self.__lang
         self.__nlp_utils.encoding = self.__encoding
-        self.__nlp_utils.conf_path = PropertiesManager.get_prop_value(PropertiesNames.NLP_LIBRARY_PATH)
+        self.__nlp_utils.conf_path = PropertiesManager.get_prop_value(PropertiesNames.NLP_LIBRARY_PATH.value)
         self.__nlp_utils.initialization()
         
-        features_generator_name = PropertiesManager.get_prop_value(PropertiesNames.FEAUTRES_GENERATOR_NAME)
+        features_generator_name = PropertiesManager.get_prop_value(PropertiesNames.FEAUTRES_GENERATOR_NAME.value)
         if features_generator_name is None:
             raise ValueError("You must define the features generator.")
         
         self.__features_generator = FactoryWeightFeatures.creator(features_generator_name)
         
-        self.__field_to_process = PropertiesManager.get_prop_value(PropertiesNames.FIELD_TO_PROCESS)
+        self.__field_to_process = PropertiesManager.get_prop_value(PropertiesNames.FIELD_TO_PROCESS.value)
         if self.__field_to_process is None:
             self.__field_to_process = "title_body"
             
             
-        output_matlab_path = PropertiesManager.get_prop_value(PropertiesNames.OUTPUT_MATLAB_PATH)
+        output_matlab_path = PropertiesManager.get_prop_value(PropertiesNames.OUTPUT_MATLAB_PATH.value)
         if output_matlab_path is None:
             raise ValueError("You must set an output matlab file path.")
         self.__output_matlab_path = output_matlab_path
         
         self.__select_word_info_method()
         
+        self.__remove_stopwords = PropertiesManager.get_prop_value(PropertiesNames.USE_STOPPER.value)
+        self.__transform_digits = PropertiesManager.get_prop_value(PropertiesNames.TRANS_DIGITS.value)
+        
     
-    def __field_to_process(self, doc):
+    def __select_field_to_process(self, doc):
         
         doc_processed = None
         
@@ -127,18 +133,28 @@ class ModelPipeline:
         text_corpus = []
         for doc_id in self.__corpus_handler.corpus:
             doc = self.__corpus_handler.get_document(doc_id)
-            doc_processed = self.__field_to_process(doc)
+            doc_processed = self.__select_field_to_process(doc)
             text_doc = []
             for sent in doc_processed:
                 for word in sent:
                     proc_word = ""
-                    if word.is_stopword is False:
-                        if word.is_digit:
+                    if self.__remove_stopwords is True:
+                        if word.is_stopword is False:
+                            if self.__transform_digits is True and word.is_digit is True:
+                                proc_word = "__DIGIT__"
+                            else:
+                                proc_word = self.__get_word_info_method(word)
+                            text_doc.append(proc_word)
+                    else:
+                        if self.__transform_digits is True and word.is_digit is True:
                             proc_word = "__DIGIT__"
                         else:
                             proc_word = self.__get_word_info_method(word)
                         
                         text_doc.append(proc_word)
+            
+            print("\n---------\n")
+            print(" ".join(text_doc))
             text_corpus.append(text_doc)
         self.__features_generator.weight_features(text_corpus)
             
@@ -147,7 +163,7 @@ class ModelPipeline:
     
     def proc_pipeline(self):
         
-        self.__corpus_handler.load()
+        self.__corpus_handler.load(PropertiesManager.get_prop_value(PropertiesNames.CORPUS_PATH.value))
         
         self.__nlp_utils.config_pipeline()
         self.__nlp_utils.initialize_pipeline()
@@ -161,9 +177,10 @@ class ModelPipeline:
             else:
                 doc.proc_title = self.__nlp_utils.nlp_analize(doc.raw_title)
                 doc.proc_body = self.__nlp_utils.nlp_analize(doc.raw_body)
+            print("INFO: Proc. doc: {}".format(doc.id))
             
         self.__make_features()
-        self.__features_generator.write_matlab_format(self.__output_matlab_path)
+        self.__features_generator.write_matlab_format(self.__output_matlab_path, self.__corpus_handler)
         
             
         

@@ -5,11 +5,11 @@ Created on 3 oct. 2018
 
 :author: Eugenio Martínez Cámara <emcamara@decsai.ugr.es>
 '''
-from ugr.model import abs_allow_labels
+from ugr.model.abs_allow_labels import ABSAllowLabels
 
 
 
-class BilabelExperiments(abs_allow_labels):
+class BilabelExperiments(ABSAllowLabels):
     '''
     classdocs
     '''

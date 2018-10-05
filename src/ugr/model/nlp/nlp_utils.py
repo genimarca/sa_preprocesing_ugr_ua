@@ -11,6 +11,7 @@ from nltk.stem.snowball import SnowballStemmer
 from nltk.corpus import stopwords
 
 import os
+import re
 import ugr.model.nlp.pyfreeling as nlp_handler
 
 
@@ -32,6 +33,7 @@ class NLPUtils:
         self.__nlp_analyzer = None
         self.__stemmer = None
         self.__stopwords = None
+        self.__end_sentence = re.compile(r"""\.|\?|!""")
          
         
     @property
@@ -78,10 +80,10 @@ class NLPUtils:
         
         conf_options.TOK_TokenizerFile = "{}{}".format(language_conf_path, "tokenizer.dat")
         conf_options.SPLIT_SplitterFile = "{}{}".format(language_conf_path, "splitter.dat")
-        conf_options.MACO_LocutionsFile = "{}{}".format(language_conf_path, "locutions.dat")
+        conf_options.MACO_LocutionsFile = "{}{}".format(language_conf_path, "locucions.dat")
         conf_options.MACO_QuantitiesFile = "{}{}".format(language_conf_path, "quantities.dat")
         conf_options.MACO_AffixFile = "{}{}".format(language_conf_path, "afixos.dat")
-        conf_options.MACO_ProbabilityFile = "{}{}".format(language_conf_path, "probabilities.dat")
+        conf_options.MACO_ProbabilityFile = "{}{}".format(language_conf_path, "probabilitats.dat")
         conf_options.MACO_DictionaryFile = "{}{}".format(language_conf_path, "dicc.src")
         conf_options.MACO_NPDataFile = "{}{}".format(language_conf_path, "np.dat")
         conf_options.MACO_PunctuationFile = "{}{}".format(language_conf_path, "../common/punct.dat")
@@ -103,7 +105,7 @@ class NLPUtils:
         init_pipeline.MACO_MultiwordsDetection = False
         init_pipeline.MACO_NumbersDetection = True
         init_pipeline.MACO_PunctuationDetection = True
-        init_pipeline.MACO_DatesDetection = True
+        init_pipeline.MACO_DatesDetection = False
         init_pipeline.MACO_QuantitiesDetection = True
         init_pipeline.MACO_DictionarySearch = True
         init_pipeline.MACO_ProbabilityAssignment = True
@@ -113,7 +115,7 @@ class NLPUtils:
         
         init_pipeline.TAGGER_which = nlp_handler.HMM
         
-        self.__nlp_analyzer.set_current_invoke_options(self.__init_pipeline)
+        self.__nlp_analyzer.set_current_invoke_options(init_pipeline)
         
         self.__stemmer = SnowballStemmer("spanish")
         self.__stopwords = stopwords.words("spanish")
@@ -169,17 +171,15 @@ class NLPUtils:
                     meta_word = Word()
                     if (word.get_tag()[0]=="Z"):
                         meta_word.is_digit = True
-                        meta_word.w_raw_form = word.get_form()
-                    else:
-                        meta_word.w_raw_form = word.get_form()
-                        meta_word.w_raw_form_no_accent = self.__delete_accents(meta_word.w_raw_form)
-                        meta_word.w_raw_form_lc = word.get_lc_form()
-                        meta_word.w_raw_form_lc_no_accent = self.__delete_accents(meta_word.w_raw_form_lc)
-                        meta_word.w_lemma = word.get_lemma()
-                        meta_word.w_lemma_no_accent = self.__delete_accents(meta_word.w_lemma)
-                        meta_word.w_stem = self.__stemmer.stem(meta_word.w_raw_form)
-                        if meta_word.w_raw_form_lc in self.__stopwords:
-                            meta_word.is_stopword = True
+                    meta_word.w_raw_form = word.get_form()
+                    meta_word.w_raw_form_no_accent = self.__delete_accents(meta_word.w_raw_form)
+                    meta_word.w_raw_form_lc = word.get_lc_form()
+                    meta_word.w_raw_form_lc_no_accent = self.__delete_accents(meta_word.w_raw_form_lc)
+                    meta_word.w_lemma = word.get_lemma()
+                    meta_word.w_lemma_no_accent = self.__delete_accents(meta_word.w_lemma)
+                    meta_word.w_stem = self.__stemmer.stem(meta_word.w_raw_form)
+                    if meta_word.w_raw_form_lc in self.__stopwords:
+                        meta_word.is_stopword = True
                     meta_sent.append(meta_word)
             meta_sentences.append(meta_sent)
         
@@ -189,6 +189,8 @@ class NLPUtils:
     
     def nlp_analize(self, text):
         
+        if self.__end_sentence.fullmatch(text[-1]) is None:
+            text+="."
         sentences = self.__nlp_analyzer.analyze(text, True)
         
         meta_sentences = self.__filter_nlp_info(sentences)

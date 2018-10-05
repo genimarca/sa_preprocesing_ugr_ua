@@ -5,10 +5,11 @@ Created on 1 oct. 2018
 
 @author: Eugenio Martínez Cámara
 '''
-from ugr.model.dao import abs_corpus
+from ugr.model.dao.abs_corpus import ABSCorpus
 from ugr.model.dao.document import Document
+from collections import OrderedDict
 
-class CorpusRestTripadvisor(abs_corpus):
+class CorpusRestTripadvisor(ABSCorpus):
     '''Implementation of the abstract class ugr.model.dao.abs_corpus
     '''
 
@@ -19,7 +20,7 @@ class CorpusRestTripadvisor(abs_corpus):
         '''
         self.__encoding = "utf-8"
         self.__allow_labels = None
-        self.__corpus = {}
+        self.__corpus = OrderedDict()
         self.__doc_x_labels = None
         self.__SEP_CHAR = "\t"
         
@@ -77,7 +78,7 @@ class CorpusRestTripadvisor(abs_corpus):
         """
         """
         doc = Document()
-        doc.id = int(line[1])
+        doc.id = int(line[1][1:-1])
         doc.raw_title = line[2][1:-1]
         doc.raw_body = line[4][1:-1]
         doc.raw_label = int(line[3])
@@ -88,7 +89,6 @@ class CorpusRestTripadvisor(abs_corpus):
     def load(self, path):
         """
         """
-        
         with open(path, 'r', encoding=self.__encoding) as hand_file:
             hand_file.readline()
             own_split = str.split

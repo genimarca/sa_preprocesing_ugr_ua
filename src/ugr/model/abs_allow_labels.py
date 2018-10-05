@@ -14,7 +14,7 @@ class ABSAllowLabels(metaclass=ABCMeta):
     '''
 
 
-    def __init__(self, params):
+    def __init__(self):
         '''
         Sole constructor
         '''

@@ -7,6 +7,7 @@ Created on 2 oct. 2018
 """
 from ugr.model.dao.abs_corpus import ABSCorpus
 from ugr.model.dao.document import Document
+from collections import OrderedDict
 
 class CorpusCOAH(ABSCorpus):
     '''
@@ -20,7 +21,7 @@ class CorpusCOAH(ABSCorpus):
         '''
         self.__allow_labels=None
         self.__encoding = "utf-8"
-        self.__corpus={}
+        self.__corpus=OrderedDict()
         self.__doc_x_labels = None
         self.__SEP_CHAR = "|"
         
