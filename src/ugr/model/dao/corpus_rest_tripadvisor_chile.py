@@ -84,14 +84,18 @@ class CorpusRestTripadvisor(ABSCorpus):
     def __add_document(self, line):
         """
         """
-        doc = Document()
-        doc.id = int(line[1][1:-1])
-        doc.raw_title = self.__remove_quotations(line[2])
-        doc.raw_body = self.__remove_quotations(line[4])
-        doc.raw_label = int(line[3])
-        doc.allow_label = self.__allow_labels.get_label_index(doc.raw_label)
-        self.__corpus[doc.id] = doc
-        print("INFO: READ doc: {}".format(doc.id))
+        allow_label = self.__allow_labels.get_label_index(int(line[3]))
+        if allow_label is not None:
+            doc = Document()
+            doc.id = int(line[1][1:-1])
+            doc.raw_title = self.__remove_quotations(line[2])
+            doc.raw_body = self.__remove_quotations(line[4])
+            doc.raw_label = int(line[3])
+            doc.allow_label = allow_label
+            self.__corpus[doc.id] = doc
+            print("INFO: READ doc: {}".format(doc.id))
+        else:
+            print("INFO: The doc: {} has a non allowed label {}".format(line[1][1:-1], line[3]))
         
     
     def load(self, path):

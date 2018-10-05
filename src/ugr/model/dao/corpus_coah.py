@@ -78,14 +78,18 @@ class CorpusCOAH(ABSCorpus):
     def __add_document(self, line):
         """
         """
-        doc = Document()
-        doc.id = int(line[0])
-        doc.raw_title = line[2]
-        doc.raw_body = line[-1]
-        doc.raw_label = int(line[1])
-        doc.allow_label = self.__allow_labels.get_label_index(doc.raw_label)
-        self.__corpus[doc.id] = doc
-        print("INFO: READ doc: {}".format(doc.id))
+        allow_label = self.__allow_labels.get_label_index(line[1])
+        if allow_label is not None:
+            doc = Document()
+            doc.id = int(line[0])
+            doc.raw_title = line[2]
+            doc.raw_body = line[-1]
+            doc.raw_label = int(line[1])
+            doc.allow_label = allow_label
+            self.__corpus[doc.id] = doc
+            print("INFO: READ doc: {}".format(doc.id))
+        else:
+            print("INFO: The doc: {} has a non allowed label {}".format(line[0], line[1]))
     
     def load(self, path):
         """
