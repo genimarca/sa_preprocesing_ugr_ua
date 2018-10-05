@@ -153,8 +153,6 @@ class ModelPipeline:
                         
                         text_doc.append(proc_word)
             
-            print("\n---------\n")
-            print(" ".join(text_doc))
             text_corpus.append(text_doc)
         self.__features_generator.weight_features(text_corpus)
             

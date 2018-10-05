@@ -85,6 +85,7 @@ class CorpusCOAH(ABSCorpus):
         doc.raw_label = int(line[1])
         doc.allow_label = self.__allow_labels.get_label_index(doc.raw_label)
         self.__corpus[doc.id] = doc
+        print("INFO: READ doc: {}".format(doc.id))
     
     def load(self, path):
         """

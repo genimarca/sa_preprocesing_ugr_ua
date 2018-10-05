@@ -74,16 +74,24 @@ class CorpusRestTripadvisor(ABSCorpus):
         return self.__doc_x_labels
         
     
+    def __remove_quotations(self, text):
+        no_quatations = text
+        if text[0] == "\"" and text[-1] == "\"":
+            no_quatations = text[1:-1]
+            
+        return no_quatations
+    
     def __add_document(self, line):
         """
         """
         doc = Document()
         doc.id = int(line[1][1:-1])
-        doc.raw_title = line[2][1:-1]
-        doc.raw_body = line[4][1:-1]
+        doc.raw_title = self.__remove_quotations(line[2])
+        doc.raw_body = self.__remove_quotations(line[4])
         doc.raw_label = int(line[3])
         doc.allow_label = self.__allow_labels.get_label_index(doc.raw_label)
         self.__corpus[doc.id] = doc
+        print("INFO: READ doc: {}".format(doc.id))
         
     
     def load(self, path):
@@ -95,7 +103,8 @@ class CorpusRestTripadvisor(ABSCorpus):
             own_strip = str.strip
             for line in hand_file:
                 line = own_split(own_strip(line), self.__SEP_CHAR)
-                self.__add_document(line) 
+                self.__add_document(line)
+                
         
         
     def get_document(self, doc_id):
