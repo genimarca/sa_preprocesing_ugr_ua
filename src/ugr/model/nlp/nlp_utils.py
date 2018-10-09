@@ -188,12 +188,13 @@ class NLPUtils:
     
     
     def nlp_analize(self, text):
-        
-        if self.__end_sentence.fullmatch(text[-1]) is None:
-            text+="."
-        sentences = self.__nlp_analyzer.analyze(text, True)
-        
-        meta_sentences = self.__filter_nlp_info(sentences)
+        meta_sentences = None
+        if text is not None and len(text) > 0:
+            if self.__end_sentence.fullmatch(text[-1]) is None:
+                text+="."
+            sentences = self.__nlp_analyzer.analyze(text, True)
+            
+            meta_sentences = self.__filter_nlp_info(sentences)
         
         return meta_sentences
         

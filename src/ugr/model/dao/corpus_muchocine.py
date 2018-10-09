@@ -14,13 +14,12 @@ class CorpusMuchoCine(ABSCorpus):
     '''
     classdocs
     '''
-
-
+    
+    
     def __init__(self):
         '''
         Constructor
         '''
-        
         self.__allow_labels=None
         self.__encoding = "utf-8"
         self.__corpus=OrderedDict()

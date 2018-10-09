@@ -134,26 +134,28 @@ class ModelPipeline:
         for doc_id in self.__corpus_handler.corpus:
             doc = self.__corpus_handler.get_document(doc_id)
             doc_processed = self.__select_field_to_process(doc)
-            text_doc = []
-            for sent in doc_processed:
-                for word in sent:
-                    proc_word = ""
-                    if self.__remove_stopwords is True:
-                        if word.is_stopword is False:
+            if doc_processed is not None:
+                text_doc = []
+                
+                for sent in doc_processed:
+                    for word in sent:
+                        proc_word = ""
+                        if self.__remove_stopwords is True:
+                            if word.is_stopword is False:
+                                if self.__transform_digits is True and word.is_digit is True:
+                                    proc_word = "__DIGIT__"
+                                else:
+                                    proc_word = self.__get_word_info_method(word)
+                                text_doc.append(proc_word)
+                        else:
                             if self.__transform_digits is True and word.is_digit is True:
                                 proc_word = "__DIGIT__"
                             else:
                                 proc_word = self.__get_word_info_method(word)
+                            
                             text_doc.append(proc_word)
-                    else:
-                        if self.__transform_digits is True and word.is_digit is True:
-                            proc_word = "__DIGIT__"
-                        else:
-                            proc_word = self.__get_word_info_method(word)
-                        
-                        text_doc.append(proc_word)
-            
-            text_corpus.append(text_doc)
+                
+                text_corpus.append(text_doc)
         self.__features_generator.weight_features(text_corpus)
             
             
