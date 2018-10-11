@@ -42,7 +42,8 @@ class FrequencyFeatures(ABSWeightFeatures):
             token_pattern=None,
             ngram_range=ngrams,
             lowercase=None,
-            binary=True
+            binary=True,
+            dtype='double'
             )
         self.__features_weights = self.__vectorizer.fit_transform(raw_documents)
         

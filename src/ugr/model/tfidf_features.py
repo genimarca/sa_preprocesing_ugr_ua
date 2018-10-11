@@ -59,6 +59,6 @@ class TFIDFFeatures(ABSWeightFeatures):
             "features_names":self.__vectorizer.get_feature_names(),
             "features_weights":self.__features_weights
             }
-        savemat(path, dict_meta_corpus)
+        savemat(path, dict_meta_corpus, dtype='double')
         
         

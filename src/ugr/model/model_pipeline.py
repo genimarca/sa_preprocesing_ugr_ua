@@ -123,7 +123,12 @@ class ModelPipeline:
         elif self.__field_to_process == "body":
             doc_processed = doc.proc_body
         else:
-            doc_processed = doc.proc_title + doc.proc_body
+            if doc.proc_title is None and doc.proc_body is None:
+                doc_processed = None
+            elif doc.proc_title is not None and doc.proc_body is None:
+                doc_processed = doc.proc_title
+            else:
+                doc_processed = doc.proc_body
             
         return doc_processed
     
