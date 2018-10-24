@@ -22,7 +22,7 @@ class BilabelExperiments(ABSAllowLabels):
         
         self.__number_of_labels = 2
         self.__labels = {
-            0:("NEGATIVE",[-1,1,2]),
+            0:("NEGATIVE",[-1,1,2,"-1","1","2"]),
             1:("POSITIVE",[5,4,"5","4"])
             }
         

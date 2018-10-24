@@ -43,6 +43,7 @@ class TFIDFFeatures(ABSWeightFeatures):
             token_pattern=None,
             ngram_range=ngrams,
             lowercase=None,
+            dtype='double'
             )
         self.__features_weights = self.__vectorizer.fit_transform(raw_documents)
         
@@ -59,6 +60,6 @@ class TFIDFFeatures(ABSWeightFeatures):
             "features_names":self.__vectorizer.get_feature_names(),
             "features_weights":self.__features_weights
             }
-        savemat(path, dict_meta_corpus, dtype='double')
+        savemat(path, dict_meta_corpus)
         
         
