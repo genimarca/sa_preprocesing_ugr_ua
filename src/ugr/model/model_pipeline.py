@@ -127,8 +127,10 @@ class ModelPipeline:
                 doc_processed = None
             elif doc.proc_title is not None and doc.proc_body is None:
                 doc_processed = doc.proc_title
-            else:
+            elif doc.proc_title is None and doc.proc_body is not None:
                 doc_processed = doc.proc_body
+            else:
+                doc_processed = doc.proc_title + doc.proc_body
             
         return doc_processed
     
@@ -136,12 +138,17 @@ class ModelPipeline:
     def __make_features(self):
         
         text_corpus = []
+        labels_corpus = []
+        ids_corpus = []
+        own_ids_corpus = ids_corpus.append
+        own_labels_corpus = labels_corpus.append 
         for doc_id in self.__corpus_handler.corpus:
             doc = self.__corpus_handler.get_document(doc_id)
             doc_processed = self.__select_field_to_process(doc)
             if doc_processed is not None:
                 text_doc = []
-                
+                own_labels_corpus(doc.allow_label)
+                own_ids_corpus(doc_id)
                 for sent in doc_processed:
                     for word in sent:
                         proc_word = ""
@@ -162,6 +169,7 @@ class ModelPipeline:
                 
                 text_corpus.append(text_doc)
         self.__features_generator.weight_features(text_corpus)
+        return labels_corpus, ids_corpus
             
             
             
@@ -184,8 +192,8 @@ class ModelPipeline:
                 doc.proc_body = self.__nlp_utils.nlp_analize(doc.raw_body)
             print("INFO: Proc. doc: {}".format(doc.id))
             
-        self.__make_features()
-        self.__features_generator.write_matlab_format(self.__output_matlab_path, self.__corpus_handler)
+        processed_labels, processed_ids = self.__make_features()
+        self.__features_generator.write_matlab_format(self.__output_matlab_path, processed_ids, processed_labels)
         
             
         

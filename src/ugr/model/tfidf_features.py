@@ -49,14 +49,13 @@ class TFIDFFeatures(ABSWeightFeatures):
         
         
         
-    def write_matlab_format(self, path, corpus):
+    def write_matlab_format(self, path, processed_ids, processed_labels):
         """
         """
-        labels = [corpus.get_document(id).allow_label for id in corpus.doc_ids()]
         dict_meta_corpus = {
-            "n_docs":corpus.get_size(),
-            "doc_ids":corpus.doc_ids(),
-            "labels":labels,
+            "n_docs":len(processed_ids),
+            "doc_ids":processed_ids,
+            "labels":processed_labels,
             "features_names":self.__vectorizer.get_feature_names(),
             "features_weights":self.__features_weights
             }
