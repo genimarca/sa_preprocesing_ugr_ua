@@ -43,7 +43,6 @@ python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_body_binary_unigrams_stem_l
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_body_binary_unigrams_stem_lowercase_no_stopwords_no_accents_no_digits.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_body_binary_unigrams_stem_no_stopwords.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_body_binary_unigrams_stem.txt
-python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_chile_title_body_binary_unigrams_bigrams_raw_lowercase.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_binary_bigrams_lemma_lowercase_no_accents_no_digits.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_binary_bigrams_lemma_lowercase_no_stopwords_no_accents_no_digits.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_binary_bigrams_lemma_no_stopwords.txt
@@ -98,6 +97,7 @@ python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_body_binary_bigrams_r
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_body_binary_bigrams_raw.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_body_binary_bigrams_stem_lowercase_no_accents_no_digits.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_body_binary_bigrams_stem_no_stopwords.txt
+python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_body_binary_bigrams_stem_lowercase_no_stopwords_no_accents_no_digits.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_body_binary_bigrams_stem.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_body_binary_unigrams_bigrams_lemma_lowercase_no_accents_no_digits.txt
 python3 ../src/sa_ugr_ua_app.py ../config/sa_coah_es_title_body_binary_unigrams_bigrams_lemma_lowercase_no_stopwords_no_accents_no_digits.txt

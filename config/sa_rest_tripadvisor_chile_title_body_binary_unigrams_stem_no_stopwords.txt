@@ -15,4 +15,4 @@ MIN_GRAM=1
 MAX_GRAM=1
 FEATURES_GENERATOR_NAME=FREQ_WEIGHTS
 FIELD_TO_PROCESS=title_body
-OUTPUT_MATLAB_PATH=../data/output/sa_rest_tripadvisor_chile_title_body_binary_unigrams_stem_lowercase_no_stopwords_no_accents_no_digits.mat
+OUTPUT_MATLAB_PATH=../data/output/sa_rest_tripadvisor_chile_title_body_binary_unigrams_stem_no_stopwords.mat

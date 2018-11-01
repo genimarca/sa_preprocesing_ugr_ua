@@ -15,4 +15,4 @@ MIN_GRAM=1
 MAX_GRAM=1
 FEATURES_GENERATOR_NAME=TFIDF_WEIGHTS
 FIELD_TO_PROCESS=title
-OUTPUT_MATLAB_PATH=../data/output/sa_rest_tripadvisor_chile_title_tfidf_unigrams_lemma.mat
+OUTPUT_MATLAB_PATH=../data/output/sa_muchocine_es_title_tfidf_unigrams_lemma.mat
