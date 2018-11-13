@@ -126,3 +126,4 @@ python3 ../src/sa_ugr_ua_app.py ../config/tfidf/sa_coah_es_title_body_tfidf_unig
 python3 ../src/sa_ugr_ua_app.py ../config/tfidf/sa_coah_es_title_body_tfidf_unigrams_stem_lowercase_no_stopwords_no_accents_no_digits.txt
 python3 ../src/sa_ugr_ua_app.py ../config/tfidf/sa_coah_es_title_body_tfidf_unigrams_stem_no_stopwords.txt
 python3 ../src/sa_ugr_ua_app.py ../config/tfidf/sa_coah_es_title_body_tfidf_unigrams_stem.txt
+python3 ../src/sa_ugr_ua_app.py ../config/tfidf/sa_coah_es_title_body_tfidf_bigrams_stem_lowercase_no_stopwords_no_accents_no_digits.txt

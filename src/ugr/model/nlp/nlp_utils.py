@@ -186,15 +186,32 @@ class NLPUtils:
         return meta_sentences
                     
     
+    def __empty_doc(self):
+        """
+        """
+        w = Word()
+        w.is_digit = False
+        w.w_raw_form = ""
+        w.w_raw_form_lc = ""
+        w.w_raw_form_lc_no_accent = ""
+        w.w_raw_form_no_accent = ""
+        w.w_lemma = ""
+        w.w_lemma_no_accent = ""
+        w.is_stopword = False
+        return w
+    
     
     def nlp_analize(self, text):
         meta_sentences = None
-        if text is not None and len(text) > 0:
-            if self.__end_sentence.fullmatch(text[-1]) is None:
-                text+="."
-            sentences = self.__nlp_analyzer.analyze(text, True)
-            
-            meta_sentences = self.__filter_nlp_info(sentences)
+        if text is not None:
+            if len(text) == 0:
+                meta_sentences = [[self.__empty_doc()]]
+            else:
+                if self.__end_sentence.fullmatch(text[-1]) is None:
+                    text+="."
+                sentences = self.__nlp_analyzer.analyze(text, True)
+                
+                meta_sentences = self.__filter_nlp_info(sentences)
         
         return meta_sentences
         
